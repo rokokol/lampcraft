@@ -3,6 +3,7 @@ project(LampCraft)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 
 # Включаем FetchContent для загрузки зависимостей
 include(FetchContent)

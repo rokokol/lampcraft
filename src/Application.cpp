@@ -109,12 +109,27 @@ void Application::initWindow() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+  // Создание иконки приложения
+  int width, height, channels;
+  unsigned char *pixels = stbi_load("assets/icon.png", &width, &height, &channels, 4);
+
   m_Window = glfwCreateWindow(m_WindowWidth, m_WindowHeight, "LampCraft",
                               nullptr, nullptr);
   if (!m_Window) {
     glfwTerminate();
     throw std::runtime_error("Failed to create GLFW window");
   }
+
+  if (!pixels) {
+    fprintf(stderr, "Failed to load icon: %s\n", stbi_failure_reason());
+  } else {
+    GLFWimage images[1];
+    images[0].width = width;
+    images[0].height = height;
+    images[0].pixels = pixels;
+    glfwSetWindowIcon(m_Window, 1, images);
+  }
+
   glfwMakeContextCurrent(m_Window);
 
   // Сохраняем указатель на этот объект, чтобы использовать в статических
@@ -519,7 +534,7 @@ void Application::renderMenu(int width, int height) const {
 
   // Остальные подсказки (центр экрана) оставляем без изменений
   std::string hints = R"(
-        LAMPCRAFT v1.0.0
+        LAMPCRAFT v1.0.1
 
         [WASD]/[arrows] to move
         [scroll]/[0-9] to pick a block
